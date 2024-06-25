@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stream_auth_exp/private/fake_firebase_auth.dart';
 import 'package:stream_auth_exp/private/user.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -13,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              // TODO: Implement logout
+              FakeFirebaseAuth.instance.logout();
             },
             icon: const Icon(Icons.logout),
           ),
@@ -25,6 +26,7 @@ class ProfileScreen extends StatelessWidget {
           children: [
             Image.network(user.photoURL!),
             Text("Email: ${user.email}"),
+            Text("Name: ${user.displayName}")
           ],
         ),
       ),

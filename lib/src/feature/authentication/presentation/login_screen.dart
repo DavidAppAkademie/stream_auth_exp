@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stream_auth_exp/private/fake_firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   // Konstruktor
@@ -66,8 +67,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FilledButton(
-                      onPressed: () {
-                        // TODO: Implement login
+                      onPressed: () async {
+                        try {
+                          await FakeFirebaseAuth.instance
+                              .login(_emailController.text, _pwController.text);
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Fehler: $e'),
+                            ));
+                          }
+                        }
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
@@ -77,7 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(width: 16),
                     OutlinedButton(
                       onPressed: () {
-                        // TODO: Implement registration
+                        FakeFirebaseAuth.instance
+                            .signUp(_emailController.text, _pwController.text);
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
